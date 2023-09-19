@@ -47,8 +47,15 @@ final class Plugin implements PluginInterface, Capable, EventSubscriberInterface
         $factory = new XilofoneFileProviderFactory($event->getComposer());
         try {
             $xilofoneFileProvider = $factory->create();
-            $translatedFiles = $xilofoneFileProvider->getXilofoneTranslatedFiles();
-            $xilofoneFileProvider->storeTranslatedFiles($translatedFiles);
+            $fileConfigurations = $factory->getFileConfigurations();
+
+            foreach ($fileConfigurations as $fileConfiguration) {
+                $translatedFiles = $xilofoneFileProvider->getXilofoneTranslatedFiles(
+                    $fileConfiguration['file_id'],
+                    $fileConfiguration['destination_folder']
+                );
+                $xilofoneFileProvider->storeTranslatedFiles($translatedFiles);
+            }
         } catch (\Exception $e) {
             $event->getIO()->warning('Impossible to download translations files from Xilofone. ' . $e->getMessage());
         }

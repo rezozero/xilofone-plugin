@@ -41,3 +41,25 @@ XILOFONE_PLUGIN_USERNAME=username
 XILOFONE_PLUGIN_PASSWORD=password
 ```
 
+### Multiple files
+
+You can fetch multiple files by adding them in your `composer.json` file:
+
+```json
+{
+    "extra": {
+        "xilofone": {
+            "files": [
+                {
+                    "file_id": "30",
+                    "destination_folder": "translations"
+                },
+                {
+                    "file_id": "31",
+                    "destination_folder": "translations"
+                }
+            ]
+        }
+    }
+}
+```

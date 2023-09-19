@@ -18,10 +18,8 @@ final class XilofoneFileProvider
 {
     private string $username;
     private string $password;
-    private string|int $fileId;
     private string $host;
     private ClientInterface $client;
-    private string $destinationFolder;
     private RequestFactoryInterface $requestFactory;
     private UriFactoryInterface $uriFactory;
     private StreamFactoryInterface $streamFactory;
@@ -34,16 +32,12 @@ final class XilofoneFileProvider
         StreamFactoryInterface $streamFactory,
         string $username,
         #[\SensitiveParameter] string $password,
-        int|string $fileId,
-        string $destinationFolder,
         string $host = 'https://xilofone.rezo-zero.com'
     ) {
         $this->username = $username;
         $this->password = $password;
-        $this->fileId = $fileId;
         $this->host = $host;
         $this->client = $client;
-        $this->destinationFolder = $destinationFolder;
         $this->requestFactory = $requestFactory;
         $this->uriFactory = $uriFactory;
         $this->streamFactory = $streamFactory;
@@ -91,11 +85,11 @@ final class XilofoneFileProvider
     /**
      * @return array<TranslatedFile>
      */
-    public function getXilofoneTranslatedFiles(): array
+    public function getXilofoneTranslatedFiles(string $fileId, string $destinationFolder): array
     {
-        $uri = $this->host.'/api/files/'.$this->fileId;
-        if (\str_starts_with($this->fileId, '/api/files/')) {
-            $uri = $this->host.$this->fileId;
+        $uri = $this->host.'/api/files/'.$fileId;
+        if (\str_starts_with($fileId, '/api/files/')) {
+            $uri = $this->host.$fileId;
         }
         $request = $this->requestFactory
             ->createRequest('GET', $uri)
@@ -115,8 +109,8 @@ final class XilofoneFileProvider
             $name = \preg_replace('/(\.[a-z0-9]+)$/i', '.' . $locale .'$1', $file->getName());
             $translatedFiles[] = new TranslatedFile(
                 $name,
-                $this->destinationFolder.'/'.$name,
-                $this->fetchXilofoneTranslatedMessages($this->fileId, $locale, 'xliff')
+                $destinationFolder.'/'.$name,
+                $this->fetchXilofoneTranslatedMessages($fileId, $locale, 'xliff')
             );
         }
 

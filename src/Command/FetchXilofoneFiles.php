@@ -25,11 +25,19 @@ final class FetchXilofoneFiles extends BaseCommand
         }
         $factory = new XilofoneFileProviderFactory($composer);
         $xilofoneFileProvider = $factory->create();
-        $translatedFiles = $xilofoneFileProvider->getXilofoneTranslatedFiles();
-        foreach ($translatedFiles as $file) {
-            $output->writeln('Downloaded '.$file->getName(). ' into ' . $file->getPath());
+        $fileConfigurations = $factory->getFileConfigurations();
+
+        foreach ($fileConfigurations as $fileConfiguration) {
+            $translatedFiles = $xilofoneFileProvider->getXilofoneTranslatedFiles(
+                $fileConfiguration['file_id'],
+                $fileConfiguration['destination_folder']
+            );
+            foreach ($translatedFiles as $file) {
+                $output->writeln('Downloaded '.$file->getName(). ' into ' . $file->getPath());
+            }
+            $xilofoneFileProvider->storeTranslatedFiles($translatedFiles);
         }
-        $xilofoneFileProvider->storeTranslatedFiles($translatedFiles);
+
         return 0;
     }
 }
