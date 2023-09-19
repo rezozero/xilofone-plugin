@@ -137,7 +137,7 @@ final class XilofoneFileProvider
 
     private function fetchXilofoneTranslatedMessages(string $fileId, string $locale, string $format = 'xliff'): string
     {
-        $uri = $this->host.'/download/files/'.$fileId.'/'.$locale.'/'.$format;
+        $uri = $this->host.'/download/files/'.$fileId.'/'.$locale.'/translated/'.$format;
         $request = $this->requestFactory
             ->createRequest('GET', $uri)
             ->withHeader('Accept', '*/*')

@@ -1,6 +1,12 @@
 # rezozero/xilofone-plugin
 
-Fetch translations files from xilofone.rezo-zero.com and update them in your PHP project.
+Fetch XLIFF translations files from xilofone.rezo-zero.com and update them in your PHP project.
+
+Plugin will download translations files each time you run `composer update`. Or you can run it manually with:
+
+```shell
+composer xilofone:fetch-files
+```
 
 ### Install
 
@@ -9,6 +15,8 @@ composer require --dev rezozero/xilofone-plugin
 ```
 
 ### Configuration
+
+Add the following configuration in your `composer.json` file:
 
 ```json
 {
@@ -20,7 +28,7 @@ composer require --dev rezozero/xilofone-plugin
     },
     "config": {
         "allow-plugins": {
-            "rezozero/xilofone-plugin": true,
+            "rezozero/xilofone-plugin": true
         }
     }
 }
