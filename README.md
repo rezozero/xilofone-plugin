@@ -25,3 +25,11 @@ composer require --dev rezozero/xilofone-plugin
     }
 }
 ```
+
+Then add your secret credentials in your project `.env.local` file:
+
+```dotenv
+XILOFONE_PLUGIN_USERNAME=username
+XILOFONE_PLUGIN_PASSWORD=password
+```
+
